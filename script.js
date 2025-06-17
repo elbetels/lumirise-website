@@ -12,10 +12,17 @@ themeToggle.addEventListener('click', () => {
 
     // Mobile menu toggle
 const menuToggle = document.getElementById('menu-toggle');
-const nav = document.querySelector('.nav');
+const navLinks = document.querySelector('.nav-links');
 
 menuToggle.addEventListener('click', () => {
-    nav.classList.toggle('active');
+    navLinks.classList.toggle('active');
+});
+
+    // Close menu when clicking outside
+document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('active');
+        }
     });
 
     // Search functionality
@@ -23,10 +30,13 @@ const searchInput = document.querySelector('.search-bar input');
 const searchButton = document.querySelector('.search-bar button');
     const searchContainer = document.querySelector('.search-container');
     
-    // Create search dropdown
-    const searchDropdown = document.createElement('div');
-    searchDropdown.className = 'search-dropdown';
-    searchContainer.appendChild(searchDropdown);
+    // Create search dropdown if it doesn't exist
+    let searchDropdown = document.querySelector('.search-dropdown');
+    if (!searchDropdown) {
+        searchDropdown = document.createElement('div');
+        searchDropdown.className = 'search-dropdown';
+        searchContainer.appendChild(searchDropdown);
+    }
 
     function performSearch(query) {
         if (!query.trim()) {
@@ -40,7 +50,9 @@ const searchButton = document.querySelector('.search-bar button');
         
         sections.forEach(section => {
             const title = section.querySelector('h2')?.textContent || section.id;
-            if (title.toLowerCase().includes(query.toLowerCase())) {
+            const content = section.textContent.toLowerCase();
+            if (title.toLowerCase().includes(query.toLowerCase()) || 
+                content.includes(query.toLowerCase())) {
                 matches.push({
                     id: section.id,
                     title: title
@@ -53,6 +65,7 @@ const searchButton = document.querySelector('.search-bar button');
             searchDropdown.innerHTML = matches.map(match => `
                 <div class="search-suggestion" data-section="${match.id}">
                     <div class="suggestion-content">
+                        <i class="fas fa-link"></i>
                         <div class="suggestion-text">${match.title}</div>
                     </div>
                 </div>
@@ -68,6 +81,7 @@ const searchButton = document.querySelector('.search-bar button');
                         section.scrollIntoView({ behavior: 'smooth' });
                         section.style.animation = 'highlight 2s';
                         searchDropdown.style.display = 'none';
+                        searchInput.value = '';
                     }
                 });
             });
