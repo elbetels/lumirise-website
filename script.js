@@ -14,6 +14,13 @@ themeToggle.addEventListener('click', () => {
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
+// Close menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+    });
+});
+
 menuToggle.addEventListener('click', () => {
     navLinks.classList.toggle('active');
 });
@@ -204,4 +211,56 @@ const searchButton = document.querySelector('.search-bar button');
             if (contactFormPage) contactFormPage.style.display = 'block';
         });
     }
+
+    // Add click event listeners to all menu items
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            // Hide the dropdown menu
+            const dropdown = document.querySelector('.dropdown-menu');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+            }
+            
+            // Remove active class from all menu items
+            document.querySelectorAll('.menu-item').forEach(menuItem => {
+                menuItem.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+        });
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.querySelector('.dropdown-menu');
+        const menuButton = document.querySelector('.menu-button');
+        
+        if (dropdown && !menuButton.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+        }
+    });
+
+    // Menu click handlers
+    $('.nav-links a, .dropdown-menu a').on('click', function() {
+        // Hide the dropdown menu
+        $('.dropdown-menu').removeClass('show');
+        // Remove active class from all menu items
+        $('.nav-links a').removeClass('active');
+        // Add active class to clicked item
+        $(this).addClass('active');
+    });
+
+    // Close dropdown when clicking outside
+    $(document).on('click', function(event) {
+        if (!$(event.target).closest('.menu-button, .dropdown-menu').length) {
+            $('.dropdown-menu').removeClass('show');
+        }
+    });
+
+    // Toggle menu function
+    $('.menu-toggle').on('click', function(event) {
+        event.stopPropagation();
+        $('.dropdown-menu').toggleClass('show');
+    });
 }); 
