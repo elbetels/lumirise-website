@@ -991,8 +991,8 @@ section:nth-child(even) {
     margin-bottom: 1.5rem;
 }
 
-.hero p {
-    font-size: 1.3rem; /* Increased slightly for a middle bigger size */
+.hero p:not(.amharic-text) {
+    font-size: 1.6rem;
     margin-bottom: 0.5rem;
     animation: fadeInUp 1s ease 0.2s backwards;
     color: #ffffff;
@@ -1001,7 +1001,7 @@ section:nth-child(even) {
 }
 
 .hero p.amharic-text {
-    font-size: 1.1rem; /* Increased slightly for a middle bigger size */
+    font-size: 1.2rem;
     color: #ffffff;
     margin-bottom: 2rem;
     font-family: 'Noto Sans Ethiopic', sans-serif;
@@ -1270,6 +1270,21 @@ section:nth-child(even) {
 
     .hero h1 {
         font-size: 1.8rem; /* Adjusted for mobile */
+    }
+
+    .hero-content .cta-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.8rem;
+    }
+
+    .hero-content .cta-button {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .hero-content {
+        padding: 1rem;
     }
 }
 
